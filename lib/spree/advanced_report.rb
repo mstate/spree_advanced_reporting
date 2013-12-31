@@ -1,23 +1,26 @@
 module Spree
   class AdvancedReport
     include Ruport
-    attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
+    attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :search,
+                      :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
     def name
-      "Base Advanced Report"
+      I18n.t("adv_report.base.name")
     end
 
     def description
-      "Base Advanced Report"
+      I18n.t("adv_report.base.description")
     end
 
     def initialize(params)
-      self.params = params
+      self.params ||= params
       self.data = {}
       self.ruportdata = {}
       self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
       params[:search] ||= {}
+      params[:advanced_reporting] ||= {}
+
       if params[:search][:completed_at_gt].blank?
         if (Order.count > 0) && Order.minimum(:completed_at)
           params[:search][:completed_at_gt] = Order.minimum(:completed_at).beginning_of_day
@@ -124,6 +127,14 @@ module Spree
 
     def order_count(order)
       self.product_in_taxon ? 1 : 0
+    end
+
+    def date_range
+      if self.params[:search][:completed_at_gt].to_date == self.params[:search][:completed_at_lt].to_date
+          self.params[:search][:completed_at_gt].to_date.to_s
+      else
+          "#{self.params[:search][:completed_at_gt].to_date} &ndash; #{self.params[:search][:completed_at_lt].to_date}"
+      end
     end
   end
 end

@@ -1,0 +1,105 @@
+nl:
+  report_default: Report Default
+  sales_total_description: "Totaal verkopen"
+  sales_total: "Verkoop Total"
+  adv_report:
+    increments:
+      daily: "per dag"
+      weekly: "per week"
+      monthly: "per maand"
+      quarterly: "per kwartaal"
+      yearly: "per jaar"
+    dashboard: Dashboard
+    daily: Per Dag
+    weekly: Per Week
+    monthly: Per Maand
+    quarterly: Per Kwartaal
+    yearly: Per Jaar
+    revenue: "Opbrengst"
+    revenue_description: "Order Opbrengst"
+    units: "Aantallen"
+    units_description: "Aantal verkochte producten"
+    profit: "Winst"
+    profit_description: "Winst"
+    count: "Orders"
+    count_description: "Aantal afgeronde orders"
+    top_products: "Producten"
+    top_products_description: "Best lopende producten"
+    top_customers: "Klanten"
+    top_customers_description: "Meest bestellende klanten"
+    geo_revenue: "Opbrengst per regio"
+    geo_revenue_description: "Opbrengst per regio"
+    geo_units: "Aantallen per regio"
+    geo_units_description: "Aantallen per regio"
+    geo_profit: "Winst per regio"
+    geo_profit_description: "Winst per regio"
+    transactions: Transacties
+    outstanding: Openstaand
+    outstanding_description: Openstaande order bedragen
+    submit: "Verzend"
+    states: Staten
+    countries: Landen
+    base:
+      range: Datum bereik
+      from: Van
+      after: Na
+      before: Voor
+      all: Alle
+      name: "Base Advanced Report"
+      description: "Base Advanced Report"
+    top_report:
+      top_customers:
+        table:
+          email: "email"
+          Units: "Aantallen"
+          Revenue: "Opbrengst"
+        customer_email: "Klant E-mail"
+        name: "Beste Klanten"
+        description: "Beste klanten (opbrengst)"
+      top_products:
+        table:
+          email: "e-mail"
+          Units: "Aantallen"
+          Revenue: "Opbrengst"
+        product_name: Productnaam
+        name: "Best verkopende producten (opbrengst)"
+        description: "Best verkopende producten (opbrengst)"
+    increment_report:
+      count:
+        name: "Aantal orders"
+        description: "Totaal afgeronde orders"
+        column: "Aantal"
+      profit:
+        name: "Winst"
+        description: "Totale winst van orders, winst wordt berekend aan de hand van totaal aantal producten maal de verkoopprijs min de kostprijs."
+        column: "Winst"
+      revenue:
+        name: "Opbrengst"
+        description: "Totale opbrengst van orders, wordt berekend aan de hand van aantal producten maal de verkoopprijst exclusief verzendkosten."
+        column: "Revenue"
+      units:
+        name: "Aantal producten"
+        description: "Totaal verkochte producten."
+        column: "Aantal"
+    geo_report:
+      profit:
+        table:
+          location: "locatie"
+          Profit: "Winst"
+        name: "Winst per gebied"
+        description: "Winst per geografisch gebied."
+        column: "Winst"
+      revenue:
+        table:
+          location: "locatie"
+          Revenue: "Opbrengst"
+        name: "Opbrengst per gebied"
+        description: "Opbrengst per geografisch gebied."
+        column: "Opbrengst"
+      units:
+        table:
+          location: "locatie"
+          Revenue: "Opbrengst"
+        name: "Verkochte aantallen pergebied"
+        description: "Verkochte aantallen per geografisch gebied"
+        column: "Aantal"

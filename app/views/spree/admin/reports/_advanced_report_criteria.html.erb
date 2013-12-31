@@ -1,8 +1,9 @@
 <div id="advanced_report_search">
   <%= form_for :search do |s| %>
     <% if @stores -%>
-        Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
-        <br>
+      <% selected = params[:search].present? && params[:search][:store_id_eq].present? ? params[:search][:store_id_eq] : nil %>
+      Store:<br /><%= s.select :store_id_eq, options_from_collection_for_select(@stores, :id, :name, selected), { :include_blank => 'All' } %><br />
+      <br>
 
     <% end -%>
 
@@ -30,8 +31,8 @@
 </div>
 
 <% content_for :head do -%>
-<%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/advanced_reporting.js' %>
-<%= stylesheet_link_tag 'admin/advanced_reporting' %>
+<%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/spree_advanced_reporting.js' %>
+<%= stylesheet_link_tag 'admin/spree_advanced_reporting' %>
 <script type="text/javascript">
 var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : '' %>";
 var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : '' %>";
