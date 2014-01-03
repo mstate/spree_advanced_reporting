@@ -13,9 +13,6 @@ class Spree::Admin::AdvancedReportOverviewController < Spree::Admin::BaseControl
 
     # From overview_dashboard, Cleanup eventually
     orders = Spree::Order.find(:all, :order => "completed_at DESC", :limit => 10, :include => :line_items, :conditions => "completed_at is not null")
-    @last_orders = orders.inject([]) { |arr, o| arr << [o.bill_address.firstname, o.line_items.sum(:quantity), o.total, o.number]; arr }
-    @best_taxons =  Spree::Taxon.connection.select_rows("select t.name, count(li.quantity) from spree_line_items li inner join spree_variants v on
-           li.variant_id = v.id inner join spree_products p on v.product_id = p.id inner join spree_products_taxons pt on p.id = pt.product_id
-           inner join spree_taxons t on pt.taxon_id = t.id where t.taxonomy_id = #{Spree::Taxonomy.last.id} group by t.name order by count(li.quantity) desc limit 5;")
+    @last_orders = orders.inject([]) { |arr, o| arr << [o.andand.bill_address.andand.firstname || o.email, o.line_items.sum(:quantity), o.total, o.number]; arr }
   end
 end
