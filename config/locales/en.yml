@@ -2,6 +2,12 @@ en:
   report_default: Report Default
   sales_total_description: "Sales Total"
   sales_total: "Sales Total"
+  date_range: "Date Range:"
+  from: "From"
+  to: "to"
+  after: "After"
+  before: "Before"
+  all: "All"
   adv_report:
     increments:
       daily: "daily"

@@ -2,6 +2,12 @@ nl:
   report_default: Report Default
   sales_total_description: "Totaal verkopen"
   sales_total: "Verkoop Total"
+  date_range: "Datum:"
+  from: "Van"
+  to: "tot"
+  after: "Na"
+  before: "Voor"
+  all: "Alle"
   adv_report:
     increments:
       daily: "per dag"

@@ -22,16 +22,14 @@ module Spree
       params[:advanced_reporting] ||= {}
 
       if params[:search][:completed_at_gt].blank?
-        if (Order.count > 0)
-          params[:search][:completed_at_gt] = (Time.now - 30.days).beginning_of_day #Order.minimum(:completed_at).beginning_of_day
-        end
+        self.unfiltered_params[:completed_at_gt] = (SpreeAdvancedReporting.default_min_date).beginning_of_day.strftime("%Y/%m/%d")
+        params[:search][:completed_at_gt] = (SpreeAdvancedReporting.default_min_date).beginning_of_day #Order.minimum(:completed_at).beginning_of_day
       else
         params[:search][:completed_at_gt] = Time.zone.parse(params[:search][:completed_at_gt]).beginning_of_day rescue ""
       end
       if params[:search][:completed_at_lt].blank?
-        if (Order.count > 0)
-          params[:search][:completed_at_lt] = Time.now.end_of_day #Order.maximum(:completed_at).end_of_day
-        end
+        self.unfiltered_params[:completed_at_lt] = Time.now.end_of_day.strftime("%Y/%m/%d")
+        params[:search][:completed_at_lt] = Time.now.end_of_day #Order.maximum(:completed_at).end_of_day
       else
         params[:search][:completed_at_lt] = Time.zone.parse(params[:search][:completed_at_lt]).end_of_day rescue ""
       end
@@ -64,19 +62,19 @@ module Spree
       end
 
       # Above searchlogic date settings
-      self.date_text = "Date Range:"
+      self.date_text = I18n.t :date_range
       if self.unfiltered_params
         if self.unfiltered_params[:completed_at_gt] != '' && self.unfiltered_params[:completed_at_lt] != ''
-          self.date_text += " From #{self.unfiltered_params[:completed_at_gt]} to #{self.unfiltered_params[:completed_at_lt]}"
+          self.date_text += "#{I18n.t(:from)} #{self.unfiltered_params[:completed_at_gt]} #{I18n.t(:to)} #{self.unfiltered_params[:completed_at_lt]}"
         elsif self.unfiltered_params[:completed_at_gt] != ''
-          self.date_text += " After #{self.unfiltered_params[:completed_at_gt]}"
+          self.date_text += " #{I18n.t(:after)} #{self.unfiltered_params[:completed_at_gt]}"
         elsif self.unfiltered_params[:completed_at_lt] != ''
-          self.date_text += " Before #{self.unfiltered_params[:completed_at_lt]}"
+          self.date_text += " #{I18n.t(:before)} #{self.unfiltered_params[:completed_at_lt]}"
         else
-          self.date_text += " All"
+          self.date_text += " #{I18n.t(:all)}"
         end
       else
-        self.date_text += " All"
+        self.date_text += " #{I18n.t(:all)}"
       end
     end
 

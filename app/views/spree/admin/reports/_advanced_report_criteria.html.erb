@@ -34,8 +34,8 @@
 <%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/spree_advanced_reporting.js' %>
 <%= stylesheet_link_tag 'admin/spree_advanced_reporting' %>
 <script type="text/javascript">
-var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : '' %>";
-var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : '' %>";
+var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : Time.now.end_of_day.strftime("%Y/%m/%d") %>";
+var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : (SpreeAdvancedReporting.default_min_date).beginning_of_day.strftime("%Y/%m/%d") %>";
 </script>
 <% end -%>
 
