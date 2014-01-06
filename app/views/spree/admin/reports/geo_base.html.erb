@@ -1,11 +1,11 @@
-<% [:state, :country].each do |type| -%>
-    <div id="<%= type.to_s %>_data" <%= 'style=display:none;' if type != :state %> class="advanced_reporting_data">
+<% [:country, :state].each do |type| -%>
+    <div id="<%= type.to_s %>_data" <%= 'style=display:none;' if type != :country %> class="advanced_reporting_data">
         <div id="<%= type.to_s %>_canvas" class="canvas"></div>
         <%= raw @report.ruportdata[type].to_html %>
     </div>
 <% end -%>
 
-<% content_for :table_filter do -%>
+<% content_for :sidebar do -%>
     <div class="report_details">
         <h1><%=t "adv_report." + @report.name.downcase %></h1>
         <p><%= @report.description %></p>
@@ -14,13 +14,13 @@
     </div>
 
     <ul id="show_data">
-        <li class="selected" id="state">
-            <label>States</label><br />
-            <a href="<%= @report.download_url(request.fullpath, 'csv', "state") %>">CSV</a>
-        </li>
-        <li id="country">
+        <li class="selected" id="country">
             <label>Countries</label><br />
             <a href="<%= @report.download_url(request.fullpath, 'csv', "country") %>">CSV</a>
+        </li>
+        <li id="state">
+            <label>States</label><br />
+            <a href="<%= @report.download_url(request.fullpath, 'csv', "state") %>">CSV</a>
         </li>
     </ul>
     <%= render :partial => 'spree/admin/reports/advanced_report_criteria', :locals => {} %>
@@ -29,24 +29,24 @@
 <% content_for :head do -%>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        google.load('visualization', '1', {'packages': ['geomap']});        
+        google.load('visualization', '1', {'packages': ['geomap']});
     </script>
     <script type="text/javascript">
         google.setOnLoadCallback(drawMaps);
 
 function drawMaps() {
-<% [:state, :country].each do |type| -%>
+<% [:country, :state].each do |type| -%>
     var data_<%= type.to_s %> = new google.visualization.DataTable();
 data_<%= type.to_s %>.addRows(<%= @report.ruportdata[type].size %>);
 data_<%= type.to_s %>.addColumn('string', '<%= type.to_s.capitalize %>');
 data_<%= type.to_s %>.addColumn('number', '<%= @report.column %>');
 <% @report.ruportdata[type].each_with_index do |p, i| %>
     data_<%= type.to_s %>.setValue(<%= i.to_s %>, 0, "<%= p.data[type.to_s.capitalize] %>");
-data_<%= type.to_s %>.setValue(<%= i.to_s %>, 1, <%= p.data[@report.column].to_s.gsub(/^\$/, '') %>);
+data_<%= type.to_s %>.setValue(<%= i.to_s %>, 1, <%= p.data[@report.column].to_s.gsub(Spree::Config[:currency], '') %>);
         <% end -%>
 
-var options_<%= type.to_s %> = { 'width' : '800px', 'height' : '500px' };
-<% if type == :state %> 
+var options_<%= type.to_s %> = { 'width' : '700px', 'height' : '450px' };
+<% if type == :state %>
     options_<%= type.to_s %>['region'] = 'US';
         <% end -%>
 

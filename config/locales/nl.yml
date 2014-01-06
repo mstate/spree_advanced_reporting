@@ -1,0 +1,12 @@
+nl:
+  adv_report:
+    revenue: "Opbrengst"
+    units: "Producten"
+    profit: "Winst"
+    count: "Aantal orders"
+    top_products: "Top Producten"
+    top_customers: "Top klanten"
+    submit: "Verzenden"
+    geo_revenue: "Geo Opbrengst"
+    geo_units: "Geo Producten"
+    geo_profit: "Geo Winst"

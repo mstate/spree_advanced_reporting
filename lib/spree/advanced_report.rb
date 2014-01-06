@@ -19,15 +19,15 @@ module Spree
 
       params[:search] ||= {}
       if params[:search][:completed_at_gt].blank?
-        if (Order.count > 0) && Order.minimum(:completed_at)
-          params[:search][:completed_at_gt] = Order.minimum(:completed_at).beginning_of_day
+        if (Order.count > 0)
+          params[:search][:completed_at_gt] = (Time.now - 30.days).beginning_of_day #Order.minimum(:completed_at).beginning_of_day
         end
       else
         params[:search][:completed_at_gt] = Time.zone.parse(params[:search][:completed_at_gt]).beginning_of_day rescue ""
       end
       if params[:search][:completed_at_lt].blank?
-        if (Order.count > 0) && Order.maximum(:completed_at)
-          params[:search][:completed_at_lt] = Order.maximum(:completed_at).end_of_day
+        if (Order.count > 0)
+          params[:search][:completed_at_lt] = Time.now.end_of_day #Order.maximum(:completed_at).end_of_day
         end
       else
         params[:search][:completed_at_lt] = Time.zone.parse(params[:search][:completed_at_lt]).end_of_day rescue ""

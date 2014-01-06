@@ -1,25 +1,29 @@
 <div id="advanced_report_search">
   <%= form_for :search do |s| %>
     <% if @stores -%>
-        Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
-        <br>
-
+      <% selected = params[:search].present? && params[:search][:store_id_eq].present? ? params[:search][:store_id_eq] : nil %>
+      Store:<br /><%= s.select :store_id_eq, options_from_collection_for_select(@stores, :id, :name, selected), { :include_blank => 'All' } %><br />
+      <br>
     <% end -%>
 
     <div id="taxon_products">
-    <% if @taxons -%>
-        <%=t "taxons"%>: <%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => 'All' } ) %>
-    <% end -%>
-    <%=t :products%>: <%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => 'All' } ) %><br />
+      <div class='row'>
+        <% if @taxons -%>
+            <%=t "taxons"%>: <%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => 'All' } ) %>
+        <% end -%>
+      </div>
+      <div class='row'>
+        <%=t :products %>: <%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => 'All' } ) %><br />
+      </div>
     </div>
 
     <%= t("date_range") %>:
     <div class="yui-g date-range-filter">
-      <div class="yui-u sub-field first" style="float:left;">
+      <div class="yui-u sub-field first row">
         <label class="sub"><%= t("start") %></label>
         <%= s.text_field :completed_at_gt , :class => 'datepicker'%>
       </div>
-      <div class="yui-u sub-field" style="float:left;">
+      <div class="yui-u sub-field row">
         <label><%= t("stop") %></label>
         <%= s.text_field :completed_at_lt ,  :class => 'datepicker' %>
       </div>
@@ -30,12 +34,12 @@
 </div>
 
 <% content_for :head do -%>
-<%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/advanced_reporting.js' %>
-<%= stylesheet_link_tag 'admin/advanced_reporting' %>
-<script type="text/javascript">
-var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : '' %>";
-var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : '' %>";
-</script>
+  <%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/spree_advanced_reporting.js' %>
+  <%= stylesheet_link_tag 'admin/spree_advanced_reporting' %>
+  <script type="text/javascript">
+    var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : Time.now.end_of_day.strftime("%Y/%m/%d") %>";
+    var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : (Time.now - 30.days).beginning_of_day.strftime("%Y/%m/%d") %>";
+  </script>
 <% end -%>
 
 <% if params[:advanced_reporting] -%>
