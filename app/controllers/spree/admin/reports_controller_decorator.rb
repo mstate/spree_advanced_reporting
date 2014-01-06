@@ -11,7 +11,7 @@ Spree::Admin::ReportsController.class_eval do
 
   ADVANCED_REPORTS ||= {}
   [ :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
-    ADVANCED_REPORTS[x]= {name: I18n.t(x.to_s, scope: :adv_report), :description => I18n.t("#{x}_description", scope: :adv_report)}
+    ADVANCED_REPORTS[x]= {name: I18n.t(x.to_s, scope: :adv_report), :description => I18n.t("#{x}_description", scope: :adv_report, :currency => Spree::Config[:currency])}
   end
 
 
