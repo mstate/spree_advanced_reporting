@@ -38,7 +38,7 @@ class Spree::AdvancedReport::GeoReport::GeoRevenue < Spree::AdvancedReport::GeoR
       data[type].each { |k, v| ruportdata[type] << { "location" => v[:name], "Revenue" => v[:revenue] } }
       ruportdata[type].sort_rows_by!(["Revenue"], :order => :descending)
       ruportdata[type].rename_column("location", type.to_s.capitalize)
-      ruportdata[type].replace_column("Revenue") { |r| "$%0.2f" % r.Revenue }
+      ruportdata[type].replace_column("Revenue") { |r| "%0.2f #{Spree::Config[:currency]}" % r.Revenue }
     end
   end
 end

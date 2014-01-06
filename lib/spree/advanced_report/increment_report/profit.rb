@@ -19,7 +19,7 @@ class Spree::AdvancedReport::IncrementReport::Profit < Spree::AdvancedReport::In
       INCREMENTS.each do |type|
         date[type] = get_bucket(type, order.completed_at)
         data[type][date[type]] ||= {
-          :value => 0, 
+          :value => 0,
           :display => get_display(type, order.completed_at),
         }
       end
@@ -30,10 +30,10 @@ class Spree::AdvancedReport::IncrementReport::Profit < Spree::AdvancedReport::In
 
     generate_ruport_data
 
-    INCREMENTS.each { |type| ruportdata[type].replace_column("Profit") { |r| "$%0.2f" % r["Profit"] } }
+    INCREMENTS.each { |type| ruportdata[type].replace_column("Profit") { |r| "%0.2f #{Spree::Config[:currency]}" % r["Profit"] } }
   end
 
   def format_total
-    '$' + ((self.total*100).round.to_f / 100).to_s
+    ((self.total*100).round.to_f / 100).to_s + " #{Spree::Config[:currency]}"
   end
 end
