@@ -41,6 +41,6 @@ class Spree::AdvancedReport::IncrementReport::Revenue < Spree::AdvancedReport::I
   end
 
   def format_total
-    ((self.total*100).round.to_f / 100).to_s + "#{Spree::Config[:currency]}"
+    ((self.total*100).round.to_f / 100).to_s + " #{Spree::Config[:currency]}"
   end
 end

@@ -33,7 +33,7 @@
               <td><%=link_to order[3], admin_order_path(:id => order[3]) %></td>
                 <td><%= order[0] %></td>
                 <td><%= order[1] %></td>
-                <td><%= number_to_currency order[2] %></td>
+                <td><%= money order[2] %></td>
             </tr>
           <% end -%>
         </table>
