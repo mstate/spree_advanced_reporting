@@ -1,4 +1,5 @@
 Spree::Admin::ReportsController.class_eval do
+  include Spree::Admin::AdvancedReportHelper
   before_filter :add_own
   before_filter :basic_report_setup, :actions => [:profit, :revenue, :units, :top_products, :top_customers, :geo_revenue, :geo_units, :count]
 
