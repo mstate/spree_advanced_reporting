@@ -1,6 +1,7 @@
 require_dependency 'spree/admin/reports_controller'
 
 Spree::Admin::ReportsController.class_eval do
+  include Spree::Admin::AdvancedReportHelper
   # until https://github.com/spree/spree/issues/1863 is taken care of
   # this is a workaround hack to get the report definitions to load
 

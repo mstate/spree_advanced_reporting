@@ -1,6 +1,7 @@
 module Spree
   class AdvancedReport
     include Ruport
+    include Spree::Admin::AdvancedReportHelper
     attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :search,
                       :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
@@ -22,13 +23,13 @@ module Spree
       params[:advanced_reporting] ||= {}
 
       if params[:search][:completed_at_gt].blank?
-        self.unfiltered_params[:completed_at_gt] = (SpreeAdvancedReporting.default_min_date).beginning_of_day.strftime("%Y/%m/%d")
+        self.unfiltered_params[:completed_at_gt] = datepicker_field_value((SpreeAdvancedReporting.default_min_date).beginning_of_day)
         params[:search][:completed_at_gt] = (SpreeAdvancedReporting.default_min_date).beginning_of_day #Order.minimum(:completed_at).beginning_of_day
       else
         params[:search][:completed_at_gt] = Time.zone.parse(params[:search][:completed_at_gt]).beginning_of_day rescue ""
       end
       if params[:search][:completed_at_lt].blank?
-        self.unfiltered_params[:completed_at_lt] = Time.now.end_of_day.strftime("%Y/%m/%d")
+        self.unfiltered_params[:completed_at_lt] = datepicker_field_value(Time.now.end_of_day)
         params[:search][:completed_at_lt] = Time.now.end_of_day #Order.maximum(:completed_at).end_of_day
       else
         params[:search][:completed_at_lt] = Time.zone.parse(params[:search][:completed_at_lt]).end_of_day rescue ""
@@ -62,7 +63,7 @@ module Spree
       end
 
       # Above searchlogic date settings
-      self.date_text = I18n.t :date_range
+      self.date_text = "#{I18n.t(:date_range)}<br />"
       if self.unfiltered_params
         if self.unfiltered_params[:completed_at_gt] != '' && self.unfiltered_params[:completed_at_lt] != ''
           self.date_text += "#{I18n.t(:from)} #{self.unfiltered_params[:completed_at_gt]} #{I18n.t(:to)} #{self.unfiltered_params[:completed_at_lt]}"
@@ -104,11 +105,12 @@ module Spree
     end
 
     def profit(order)
-      profit = order.line_items.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+      profit = order.line_items.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price.to_f))*li.quantity }
+      binding.pry
       if !self.product.nil? && product_in_taxon
-        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price.to_f))*li.quantity }
       elsif !self.taxon.nil?
-        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price.to_f))*li.quantity }
       end
       self.product_in_taxon ? profit : 0
     end
@@ -125,14 +127,6 @@ module Spree
 
     def order_count(order)
       self.product_in_taxon ? 1 : 0
-    end
-
-    def date_range
-      if self.params[:search][:completed_at_gt].to_date == self.params[:search][:completed_at_lt].to_date
-          self.params[:search][:completed_at_gt].to_date.to_s
-      else
-          "#{self.params[:search][:completed_at_gt].to_date} &ndash; #{self.params[:search][:completed_at_lt].to_date}"
-      end
     end
   end
 end
