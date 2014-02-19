@@ -4,15 +4,15 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
 
   def initialize(params)
     super(params)
-  
-    self.increments = INCREMENTS 
+
+    self.increments = INCREMENTS
     self.ruportdata = INCREMENTS.inject({}) { |h, inc| h[inc] = Table(%w[key display value]); h }
     self.data = INCREMENTS.inject({}) { |h, inc| h[inc] = {}; h }
 
     self.dates = {
       :daily => {
         :date_bucket => "%F",
-        :date_display => "%m-%d-%Y",
+        :date_display => I18n.t(:daily, scope: [:adv_report, :date_display]),
         :header_display => 'Daily',
       },
       :weekly => {
@@ -20,7 +20,7 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
       },
       :monthly => {
         :date_bucket => "%Y-%m",
-        :date_display => "%B %Y",
+        :date_display => I18n.t(:monthly, scope: [:adv_report, :date_display]),
         :header_display => 'Monthly',
       },
       :quarterly => {
@@ -28,14 +28,14 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
       },
       :yearly => {
         :date_bucket => "%Y",
-        :date_display => "%Y",
+        :date_display => I18n.t(:yearly, scope: [:adv_report, :date_display]),
         :header_display => 'Yearly',
       }
     }
   end
 
   def generate_ruport_data
-    self.all_data = Table(%w[increment key display value]) 
+    self.all_data = Table(%w[increment key display value])
     INCREMENTS.each do |inc|
       data[inc].each { |k,v| ruportdata[inc] << { "key" => k, "display" => v[:display], "value" => v[:value] } }
       ruportdata[inc].data.each do |p|
@@ -48,14 +48,14 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
     end
     self.all_data.sort_rows_by!(["key"])
     self.all_data.remove_column("key")
-    self.all_data = Grouping(self.all_data, :by => "increment") 
+    self.all_data = Grouping(self.all_data, :by => "increment")
   end
-  
+
   def get_bucket(type, completed_at)
     if type == :weekly
-      return completed_at.beginning_of_week.strftime("%Y-%m-%d")
+      return datepicker_field_value(completed_at.beginning_of_week)
     elsif type == :quarterly
-      return completed_at.beginning_of_quarter.strftime("%Y-%m")
+      return datepicker_field_value(completed_at.beginning_of_quarter)
     end
     completed_at.strftime(dates[type][:date_bucket])
   end
@@ -64,7 +64,7 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
     if type == :weekly
       #funny business
       #next_week = completed_at + 7
-      return completed_at.beginning_of_week.strftime("%m-%d-%Y") # + ' - ' + next_week.beginning_of_week.strftime("%m-%d-%Y")
+      return datepicker_field_value(completed_at.beginning_of_week)
     elsif type == :quarterly
       return completed_at.strftime("%Y") + ' Q' + (completed_at.beginning_of_quarter.strftime("%m").to_i/3 + 1).to_s
     end
@@ -72,6 +72,6 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
   end
 
   def format_total
-    self.total 
+    self.total
   end
 end
