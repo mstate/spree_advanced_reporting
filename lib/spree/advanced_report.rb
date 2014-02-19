@@ -103,7 +103,6 @@ module Spree
 
     def profit(order)
       profit = order.line_items.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price.to_f))*li.quantity }
-      binding.pry
       if !self.product.nil? && product_in_taxon
         profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price.to_f))*li.quantity }
       elsif !self.taxon.nil?
