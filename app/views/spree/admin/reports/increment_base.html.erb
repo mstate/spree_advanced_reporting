@@ -14,7 +14,7 @@
       <%= @report.description %><br />
       <%== @report.product_text %>
       <%== @report.taxon_text %>
-      <%= @report.date_text %><br />
+      <%= @report.date_text.html_safe %><br />
       Total: <%= @report.format_total %>
     </div>
 
