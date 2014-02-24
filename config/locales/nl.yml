@@ -25,6 +25,7 @@ nl:
       monthly: "per maand"
       quarterly: "per kwartaal"
       yearly: "per jaar"
+    products: Producten
     dashboard: Dashboard
     daily: Per Dag
     weekly: Per Week

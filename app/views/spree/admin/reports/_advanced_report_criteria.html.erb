@@ -18,17 +18,17 @@
       </div>
     <% end -%>
     <div class="field">
-      <div><%=Spree.t :products%></div>
+      <div><%=Spree.t :products, :scope => [:adv_report] %></div>
       <div><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, {:include_blank => 'All'}, {:class => 'select2 fullwidth'} ) %></div>
     </div>
     <h6><%= Spree.t("date_range") %></h6>
     <div class="field">
       <div><label><%= Spree.t("start") %></label></div>
-      <div><%= s.text_field :completed_at_gt , :class => 'datepicker'%></div>
+      <div><%= s.text_field :completed_at_gt, :class => 'datepicker'%></div>
     </div>
     <div class="field">
       <div><%= Spree.t("stop") %></div>
-      <div><%= s.text_field :completed_at_lt ,  :class => 'datepicker' %></div>
+      <div><%= s.text_field :completed_at_lt,  :class => 'datepicker' %></div>
     </div>
     <div class="field">
       <%= button Spree.t("update") %>
@@ -37,12 +37,12 @@
 </header>
 
 <% content_for :head do -%>
-  <%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/spree_advanced_reporting.js' %>
-  <%= stylesheet_link_tag 'admin/spree_advanced_reporting' %>
-  <script type="text/javascript">
-    var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : datepicker_field_value(Time.now.end_of_day) %>";
-    var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : datepicker_field_value((SpreeAdvancedReporting.default_min_date).beginning_of_day) %>";
-  </script>
+<%= javascript_include_tag 'admin/jquery.tablesorter.min.js', 'admin/spree_advanced_reporting.js' %>
+<%= stylesheet_link_tag 'admin/spree_advanced_reporting' %>
+<script type="text/javascript">
+var completed_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_lt]) ? @report.unfiltered_params[:completed_at_lt] : datepicker_field_value(Time.now.end_of_day) %>";
+var completed_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:completed_at_gt]) ? @report.unfiltered_params[:completed_at_gt] : datepicker_field_value((SpreeAdvancedReporting.default_min_date).beginning_of_day) %>";
+</script>
 <% end -%>
 
 <% if params[:advanced_reporting] -%>

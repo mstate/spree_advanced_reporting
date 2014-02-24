@@ -25,12 +25,14 @@ $(function() {
 	$('div#advanced_report_search form').submit(function() {
 		$('div#advanced_report_search form').attr('action', $('select#report').val());
 	});
+	update_report_dropdowns($('select#report').val());
+	$('select#report').change(function() { update_report_dropdowns($(this).val()); });
 
 	if(completed_at_gt != '') {
-    $('input#search_completed_at_gt').datepicker("setDate", completed_at_gt);
+		$('input#search_completed_at_gt').val(completed_at_gt);
 	}
 	if(completed_at_lt != '') {
-		$('input#search_completed_at_lt').datepicker("setDate", completed_at_lt);
+		$('input#search_completed_at_lt').val(completed_at_lt);
 	}
 })
 

@@ -69,10 +69,10 @@ module Spree
         elsif self.unfiltered_params[:completed_at_lt] != ''
           self.date_text += " #{I18n.t(:before)} #{self.unfiltered_params[:completed_at_lt]}"
         else
-          self.date_text += " #{t(:all)}"
+          self.date_text += " #{I18n.t(:all)}"
         end
       else
-        self.date_text += " #{t(:all)}"
+        self.date_text += " #{I18n.t(:all)}"
       end
     end
 
