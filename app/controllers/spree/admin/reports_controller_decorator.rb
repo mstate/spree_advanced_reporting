@@ -11,7 +11,7 @@ Spree::Admin::ReportsController.class_eval do
 
   # TODO there has got to be a more ruby way to do this...
   ADVANCED_REPORTS ||= {}
-  [ :outstanding, :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
+  [ :sales, :tax, :outstanding, :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
     # TODO we should pull the name + description for the report models themselves rather than redefining them as I18n definitions
     ADVANCED_REPORTS[x]= {name: I18n.t("#{x}", scope: [:adv_report]), :description => I18n.t("#{x}_description", scope: :adv_report)}
   end
@@ -34,7 +34,7 @@ Spree::Admin::ReportsController.class_eval do
     params[:advanced_reporting]["report_type"] = params[:advanced_reporting]["report_type"].to_sym if params[:advanced_reporting]["report_type"]
     params[:advanced_reporting]["report_type"] ||= :state
     respond_to do |format|
-      format.html { render :template => "spree/admin/reports/geo_base" }
+      format.html { render :template => "spree/admin/reports/geo_base"}
       format.pdf { send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf }
       format.csv { send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv }
     end
@@ -48,12 +48,12 @@ Spree::Admin::ReportsController.class_eval do
     end
   end
 
-  def base_report_render(filename)
+  def base_report_render(filename, options={})
     params[:advanced_reporting] ||= {}
     params[:advanced_reporting]["report_type"] = params[:advanced_reporting]["report_type"].to_sym if params[:advanced_reporting]["report_type"]
     params[:advanced_reporting]["report_type"] ||= I18n.t("adv_report.daily").downcase.to_sym
     respond_to do |format|
-      format.html { render :template => "spree/admin/reports/increment_base" }
+      format.html { render :template => "spree/admin/reports/increment_base", :locals => options  }
       format.pdf do
         if params[:advanced_reporting]["report_type"] == :all
           send_data @report.all_data.to_pdf
@@ -69,6 +69,16 @@ Spree::Admin::ReportsController.class_eval do
         end
       end
     end
+  end
+
+  def sales
+    @report = Spree::AdvancedReport::IncrementReport::Sales.new(params)
+    base_report_render("sales", :no_graph => true)
+  end
+
+  def tax
+    @report = Spree::AdvancedReport::IncrementReport::Tax.new(params)
+    base_report_render("tax", :no_graph => true)
   end
 
   def outstanding

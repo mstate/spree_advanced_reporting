@@ -25,6 +25,8 @@ en:
       monthly: "monthly"
       quarterly: "quarterly"
       yearly: "yearly"
+    tax_low: Tax low
+    tax_high: Tax high
     dashboard: Dashboard
     daily: Daily
     weekly: Weekly
@@ -51,9 +53,19 @@ en:
     geo_profit_description: "Geo Profit"
     outstanding: Outstanding
     outstanding_description: Outstanding
+    sales: Sales
+    sales_description: Total sales
+    tax: Tax
+    tax_description: Total tax
     submit: "Submit"
     states: States
     countries: Countries
+    country: Country
+    product_name: Product name
+    units: Units
+    revenue: Revenue
+    location: Location
+    multi_store: "Multi Store"
     base:
       range: Date Range
       from: From

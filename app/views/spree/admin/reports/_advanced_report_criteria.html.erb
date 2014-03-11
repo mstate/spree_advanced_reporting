@@ -4,7 +4,7 @@
       <div class="field">
         <div>
           <% selected = params[:search].present? && params[:search][:store_id_eq].present? ? params[:search][:store_id_eq] : nil %>
-          Store:
+          <%= Spree.t(:store) %>
         </div>
         <div>
           <%= s.select :store_id_eq, options_from_collection_for_select(@stores, :id, :name, selected), {:include_blank => 'All'}, {:class => 'select2 fullwidth'} %>

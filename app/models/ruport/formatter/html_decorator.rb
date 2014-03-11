@@ -18,7 +18,7 @@ Ruport::Formatter::HTML.class_eval do
     output << "\t<table class=\"tablesorter\">\n"
     unless data.column_names.empty? || !options.show_table_headers
       output << "\t\t<thead><tr>\n\t\t\t<th>" +
-        data.column_names.join("</th>\n\t\t\t<th>") +
+        data.column_names.map{|d| I18n.t(d.downcase.parameterize.underscore, :scope => [:adv_report])}.join("</th>\n\t\t\t<th>") +
         "</th>\n\t\t</tr></thead>\n"
     end
   end

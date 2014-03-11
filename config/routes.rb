@@ -2,6 +2,12 @@
    match '/admin/reports/outstanding' => 'admin/reports#outstanding',  :via  => [:get, :post],
                                                                :as   => 'outstanding_admin_reports'
 
+   match '/admin/reports/sales' => 'admin/reports#sales',  :via  => [:get, :post],
+                                                               :as   => 'sales_admin_reports'
+
+   match '/admin/reports/tax' => 'admin/reports#tax',  :via  => [:get, :post],
+                                                               :as   => 'tax_admin_reports'
+
   match '/admin/reports/revenue' => 'admin/reports#revenue',  :via  => [:get, :post],
                                                               :as   => 'revenue_admin_reports'
 

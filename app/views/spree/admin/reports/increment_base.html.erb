@@ -7,15 +7,14 @@
 
 <% content_for :sidebar do %>
     <div class="report_details">
-      <h1><%=t @report.name.downcase.gsub(/ /,"_"), scope: :adv_report %></h1>
+      <h4><%= I18n.t @report.class.name.split('::').last.underscore, scope: :adv_report %></h4>
       <div class="links">
           <a href="<%= @report.download_url(request.fullpath, 'csv', "all") %>">CSV</a>
       </div>
-      <%= @report.description %><br />
+      <%= I18n.t "#{@report.class.name.split('::').last.underscore}_description", scope: :adv_report %><br />
       <%== @report.product_text %>
       <%== @report.taxon_text %>
-      <%= @report.date_text.html_safe %><br />
-      Total: <%= @report.format_total %>
+      <%== @report.date_text %><br />
     </div>
 
     <ul id="show_data">
@@ -29,34 +28,36 @@
     <%= render :partial => 'spree/admin/reports/advanced_report_criteria', :locals => {} %>
 <% end %>
 
-<% content_for :head do -%>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load('visualization', '1', {'packages': ['corechart']});
-    </script>
-    <script type="text/javascript">
-        google.setOnLoadCallback(drawChart);
+<% unless defined?(no_graph) && no_graph %>
+  <% content_for :head do -%>
+      <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+      <script type="text/javascript">
+          google.load('visualization', '1', {'packages': ['corechart']});
+      </script>
+      <script type="text/javascript">
+          google.setOnLoadCallback(drawChart);
 
-  function drawChart() {
-    <% @report.increments.each do |type| -%>
-      var data_<%= type.to_s %> = new google.visualization.DataTable();
-      data_<%= type.to_s %>.addColumn('string', 'Display');
-      data_<%= type.to_s %>.addColumn('number', '<%= @report.name %>');
-      data_<%= type.to_s %>.addRows(<%= @report.ruportdata[type].size %>);
-      <% @report.ruportdata[type].each_with_index do |p, i| %>
-        data_<%= type.to_s %>.setValue(<%= i.to_s %>, 0, "<%= p.data[type.to_s.capitalize] %>");
-        data_<%= type.to_s %>.setValue(<%= i.to_s %>, 1, <%= p.data[@report.column].to_s.gsub(Spree::Config[:currency], '') %>);
+    function drawChart() {
+      <% @report.increments.each do |type| -%>
+        var data_<%= type.to_s %> = new google.visualization.DataTable();
+        data_<%= type.to_s %>.addColumn('string', 'Display');
+        data_<%= type.to_s %>.addColumn('number', '<%= @report.name %>');
+        data_<%= type.to_s %>.addRows(<%= @report.ruportdata[type].size %>);
+        <% @report.ruportdata[type].each_with_index do |p, i| %>
+          data_<%= type.to_s %>.setValue(<%= i.to_s %>, 0, "<%= p.data[type.to_s.capitalize] %>");
+          data_<%= type.to_s %>.setValue(<%= i.to_s %>, 1, <%= p.data[@report.column].to_s.gsub(Spree::Config[:currency], '') %>);
+        <% end -%>
+
+        var chart_<%= type.to_s %> = new google.visualization.ColumnChart(document.getElementById('<%= type.to_s %>_chart'));
+        chart_<%= type.to_s %>.draw(data_<%= type.to_s %>, {
+          width: 700,
+          height: 400,
+          legend : 'none',
+          chartArea: {width: '80%', height: 'auto'},
+          hAxis: {slantedText: true, slantedTextAngle: 30 },
+          title: '<%= type.to_s.capitalize + ' ' + @report.name %>' });
       <% end -%>
-
-      var chart_<%= type.to_s %> = new google.visualization.ColumnChart(document.getElementById('<%= type.to_s %>_chart'));
-      chart_<%= type.to_s %>.draw(data_<%= type.to_s %>, {
-        width: 700,
-        height: 400,
-        legend : 'none',
-        chartArea: {width: '80%', height: 'auto'},
-        hAxis: {slantedText: true, slantedTextAngle: 30 },
-        title: '<%= type.to_s.capitalize + ' ' + @report.name %>' });
-    <% end -%>
-  }
-  </script>
-<% end -%>
+    }
+    </script>
+  <% end -%>
+<% end %>

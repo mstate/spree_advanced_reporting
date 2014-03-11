@@ -25,6 +25,8 @@ nl:
       monthly: "per maand"
       quarterly: "per kwartaal"
       yearly: "per jaar"
+    tax_low: BTW laag
+    tax_high: BTW hoog
     dashboard: Dashboard
     daily: Per Dag
     weekly: Per Week
@@ -52,9 +54,19 @@ nl:
     transactions: Transacties
     outstanding: Openstaand
     outstanding_description: Openstaande order bedragen
+    sales: Verkoop
+    sales_description: Totaal verkopen
+    tax: BTW
+    tax_description: Totaal BTW
     submit: "Verzend"
     states: Staten
     countries: Landen
+    country: Land
+    product_name: Productnaam
+    units: "Aantallen"
+    revenue: "Opbrengst"
+    location: "locatie"
+    multi_store: "Multi Store"
     base:
       range: Datum bereik
       from: Van

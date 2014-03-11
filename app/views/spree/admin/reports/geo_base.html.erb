@@ -7,8 +7,8 @@
 
 <% content_for :sidebar do -%>
     <div class="report_details">
-        <h1><%=t @report.name.downcase, scope: :adv_report %></h1>
-        <p><%= @report.description %></p>
+        <h4><%= I18n.t @report.class.name.split('::').last.underscore, scope: :adv_report %></h4>
+        <%= I18n.t "#{@report.class.name.split('::').last.underscore}_description", scope: :adv_report %><br />
         <%= @report.taxon_text %>
         <%= @report.product_text %>
     </div>
