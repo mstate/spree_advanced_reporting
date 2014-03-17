@@ -53,9 +53,6 @@ en:
     geo_profit_description: "Profit per region in  %{currency}"
     submit: "Submit"
   spree:
-    date:
-      formats:
-        default: "%d-%m-%Y"
     date_picker:
       format: ! '%d/%m/%Y'
       js_format: 'dd/mm/yy'
