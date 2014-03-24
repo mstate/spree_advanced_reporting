@@ -109,17 +109,26 @@ module Spree
       Spree::TaxCategory.all.each do |c|
         tax["#{c.name}"] ||= 0
         tax["#{c.name}"] += order.line_items.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * (li.price - (li.price / (1+ c.tax_rates.first.amount)))}
+
+        tax["total_#{c.name}"] ||= 0
+        tax["total_#{c.name}"] += order.line_items.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * li.price}
       end
 
       if !self.product.nil? && product_in_taxon
         Spree::TaxCategory.all.each do |c|
           tax["#{c.name}"] ||= 0
           tax["#{c.name}"] += order.line_items.select { |li| li.product == self.product }.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * (li.price - (li.price / (1+ c.tax_rates.first.amount)))}
+
+          tax["total_#{c.name}"] ||= 0
+          tax["total_#{c.name}"] += order.line_items.select { |li| li.product == self.product }.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * li.price}
         end
       elsif !self.taxon.nil?
         Spree::TaxCategory.all.each do |c|
           tax["#{c.name}"] ||= 0
           tax["#{c.name}"] += order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.select { |li| li.product == self.product }.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * (li.price - (li.price / (1+ c.tax_rates.first.amount)))}
+
+          tax["total_#{c.name}"] ||= 0
+          tax["total_#{c.name}"] += order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.select { |li| li.product == self.product }.select{|li| li.tax_category == c}.inject(0) { |tax, li| li.quantity * li.price}
         end
       end
       self.product_in_taxon ? tax : {}

@@ -25,7 +25,9 @@ nl:
       monthly: "per maand"
       quarterly: "per kwartaal"
       yearly: "per jaar"
+    tax_total_low: Totaal BTW laag
     tax_low: BTW laag
+    tax_total_high: Totaal BTW hoog
     tax_high: BTW hoog
     dashboard: Dashboard
     daily: Per Dag

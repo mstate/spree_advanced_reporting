@@ -25,7 +25,9 @@ en:
       monthly: "monthly"
       quarterly: "quarterly"
       yearly: "yearly"
+    tax_total_low: Total tax low
     tax_low: Tax low
+    tax_total_high: Total tax high
     tax_high: Tax high
     dashboard: Dashboard
     daily: Daily
