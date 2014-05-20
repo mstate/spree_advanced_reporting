@@ -95,11 +95,11 @@ module Spree
     end
 
     def revenue(order)
-      rev = order.line_items.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.andand.tax_category.andand.tax_rates.andand.first.andand.amount || b.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0 ))) }
+      rev = order.line_items.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || b.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0 ))) }
       if !self.product.nil? && product_in_taxon
-        rev = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.andand.tax_category.andand.tax_rates.andand.first.andand.amount || b.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0 ))) }
+        rev = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || b.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0 ))) }
       elsif !self.taxon.nil?
-        rev = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.andand.tax_category.andand.tax_rates.andand.first.andand.amount || b.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0 ))) }
+        rev = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |a, b| a += b.quantity * (b.price / (1 + (b.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || b.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0 ))) }
       end
       self.product_in_taxon ? rev : 0
     end
@@ -135,11 +135,11 @@ module Spree
     end
 
     def profit(order)
-      profit = order.line_items.inject(0) { |p, li| p += ((li.price / (1 + (li.andand.tax_category.andand.tax_rates.andand.first.andand.amount || li.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+      profit = order.line_items.inject(0) { |p, li| p += ((li.price / (1 + (li.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || li.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       if !self.product.nil? && product_in_taxon
-        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |p, li| p += ((li.price / (1 + (li.andand.tax_category.andand.tax_rates.andand.first.andand.amount || li.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0 ))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |p, li| p += ((li.price / (1 + (li.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || li.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0 ))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       elsif !self.taxon.nil?
-        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |p, li| p += ((li.price / (1 + (li.andand.tax_category.andand.tax_rates.andand.first.andand.amount || li.andand.variant.andand.product.andand.tax_category.andand.tax_rates.andand.first.andand.amount || 0 ))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |p, li| p += ((li.price / (1 + (li.try(:tax_category).try(:tax_rates).try(:first).try(:amount) || li.try(:variant).try(:product).try(:tax_category).try(:tax_rates).try(:first).try(:amount) || 0 ))) - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       end
       self.product_in_taxon ? profit : 0
     end
