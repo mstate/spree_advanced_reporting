@@ -68,6 +68,7 @@ en:
     revenue: Revenue
     location: Location
     multi_store: "Multi Store"
+    customer_email: Customer Email
     base:
       range: Date Range
       from: From
@@ -82,7 +83,6 @@ en:
           email: "email"
           Units: "Units"
           Revenue: "Revenue"
-        customer_email: Customer Email
         name: "Top Customers"
         description: "Top purchasing customers, calculated by revenue"
       top_products:

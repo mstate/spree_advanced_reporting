@@ -69,6 +69,7 @@ nl:
     revenue: "Opbrengst"
     location: "locatie"
     multi_store: "Multi Store"
+    customer_email: "Klant E-mail"
     base:
       range: Datum bereik
       from: Van
@@ -83,7 +84,6 @@ nl:
           email: "email"
           Units: "Aantallen"
           Revenue: "Opbrengst"
-        customer_email: "Klant E-mail"
         name: "Beste Klanten"
         description: "Beste klanten (opbrengst)"
       top_products:
