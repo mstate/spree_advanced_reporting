@@ -37,7 +37,7 @@ module Spree
 
       search = Order.search(params[:search])
       # self.orders = search.state_does_not_equal('canceled')
-      self.orders = search.result
+      self.orders = search.result.includes(:line_items)
 
       self.product_in_taxon = true
       if params[:advanced_reporting]
@@ -102,17 +102,17 @@ module Spree
     end
 
     def profit(order)
-      profit = order.line_items.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+      profit = order.line_items.inject(0) { |profit, li| profit += (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       if !self.product.nil? && product_in_taxon
-        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit += (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       elsif !self.taxon.nil?
-        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |profit, li| profit + (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
+        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |profit, li| profit += (li.price - (li.cost_price || li.variant.cost_price || li.variant.product.master.cost_price.to_f))*li.quantity }
       end
       self.product_in_taxon ? profit : 0
     end
 
     def units(order)
-      units = order.line_items.sum(:quantity)
+      units = order.line_items.inject(0){|units, li| units += li.quantity} #sum(:quantity)
       if !self.product.nil? && product_in_taxon
         units = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += b.quantity }
       elsif !self.taxon.nil?
