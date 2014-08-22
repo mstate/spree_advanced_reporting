@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_advanced_reporting'
-  s.version     = '2.0.5'
+  s.version     = '3.0.0'
   s.summary     = 'Advanced Reporting for Spree based on spree_advanced_reporting from Steph Skardal at www.endpoint.com'
   s.homepage    = 'https://github.com/cgservices/spree_advanced_reporting'
   s.author      = "L. Doubrava"
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = true
 
-  s.add_dependency('spree_core')
-  s.add_dependency('ruport', '>= 1.6.3')
-  s.add_dependency('ruport-util') #, :lib => 'ruport/util')
+  s.add_dependency 'spree_core'
+  s.add_dependency 'ruport', '>= 1.6.3'
+  s.add_dependency 'ruport-util'
 end

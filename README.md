@@ -1,6 +1,16 @@
 # NOTES:
 
-This branch is for use with Spree 1.3.0 and later.
+This branch is for use with Spree 2.3 and later.
+2.x related changes:
+
+1. Translation keys changed/fixed
+2. Initialy only show last 30 days for reports
+3. Fix date display
+4. Use product cost price if variant cost price in empty
+5. Add sales and tax reports
+6. Exclude tax form cost_price
+7. Overall refactoring
+8. Optimize number queries
 
 1.3-related changes:
 
