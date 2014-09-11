@@ -20,8 +20,8 @@ Spree::Admin::ReportsController.class_eval do
     @reports = ADVANCED_REPORTS
     @products = Spree::Product.all
     @taxons = Spree::Taxon.all
-    if defined?(MultiDomainExtension)
-      @stores = Store.all
+    if defined?(SpreeMultiDomain)
+      @stores = Spree::Store.all
     end
   end
 

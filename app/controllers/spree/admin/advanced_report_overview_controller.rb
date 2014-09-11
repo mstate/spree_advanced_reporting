@@ -3,8 +3,8 @@ class Spree::Admin::AdvancedReportOverviewController < Spree::Admin::BaseControl
     @reports = Spree::Admin::ReportsController::ADVANCED_REPORTS
     @products = Spree::Product.all
     @taxons = Spree::Taxon.all
-    if defined?(MultiDomainExtension)
-      @stores = Store.all
+    if defined?(SpreeMultiDomain)
+      @stores = Spree::Store.all
     end
     @report = Spree::AdvancedReport::IncrementReport::Revenue.new({ :search => {} })
     @top_products_report = Spree::AdvancedReport::TopReport::TopProducts.new({ :search => {} }, 5)
