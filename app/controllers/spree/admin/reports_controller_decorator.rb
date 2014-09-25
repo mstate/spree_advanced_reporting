@@ -107,12 +107,12 @@ Spree::Admin::ReportsController.class_eval do
   end
 
   def top_products
-    @report = Spree::AdvancedReport::TopReport::TopProducts.new(params, 4)
+    @report = Spree::AdvancedReport::TopReport::TopProducts.new(params)
     base_report_top_render("top_products")
   end
 
   def top_customers
-    @report = Spree::AdvancedReport::TopReport::TopCustomers.new(params, 4)
+    @report = Spree::AdvancedReport::TopReport::TopCustomers.new(params)
     base_report_top_render("top_customers")
   end
 

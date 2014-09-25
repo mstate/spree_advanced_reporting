@@ -7,7 +7,7 @@ class Spree::Admin::AdvancedReportOverviewController < Spree::Admin::BaseControl
       @stores = Spree::Store.all
     end
     @report = Spree::AdvancedReport::IncrementReport::Revenue.new({ :search => {} })
-    @top_products_report = Spree::AdvancedReport::TopReport::TopProducts.new({ :search => {} }, 5)
+    @top_products_report = Spree::AdvancedReport::TopReport::TopProducts.new({ :search => {} })
     @top_customers_report = Spree::AdvancedReport::TopReport::TopCustomers.new({ :search => {} }, 5)
     @top_customers_report.ruportdata.remove_column(I18n.t("adv_report.units"))
 
