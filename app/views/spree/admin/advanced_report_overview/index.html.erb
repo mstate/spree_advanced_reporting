@@ -30,10 +30,10 @@
           </thead>
           <% @last_orders.each do |order| %>
             <tr class="odd">
-              <td><%=link_to order[3], admin_order_path(:id => order[3]) %></td>
-                <td><%= order[0] %></td>
-                <td><%= order[1] %></td>
-                <td><%= money order[2] %></td>
+              <td><%=link_to order.number, edit_admin_order_path(id: order.number) %></td>
+                <td><%= order.try(:bill_address).try(:firstname) || order.email %></td>
+                <td><%= order.line_items.sum(:quantity) %></td>
+                <td><%= number_to_currency order.total %></td>
             </tr>
           <% end -%>
         </table>
