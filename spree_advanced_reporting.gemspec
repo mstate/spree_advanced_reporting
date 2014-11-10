@@ -21,16 +21,16 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<spree_core>, ["~> 2.3.0"])
+      s.add_runtime_dependency(%q<spree_core>, ["~> 2.2.0"])
       s.add_runtime_dependency(%q<ruport>, [">= 1.6.3"])
       s.add_runtime_dependency(%q<ruport-util>, [">= 0"])
     else
-      s.add_dependency(%q<spree_core>, ["~> 2.3.0"])
+      s.add_dependency(%q<spree_core>, ["~> 2.2.0"])
       s.add_dependency(%q<ruport>, [">= 1.6.3"])
       s.add_dependency(%q<ruport-util>, [">= 0"])
     end
   else
-    s.add_dependency(%q<spree_core>, ["~> 2.3.0"])
+    s.add_dependency(%q<spree_core>, ["~> 2.2.0"])
     s.add_dependency(%q<ruport>, [">= 1.6.3"])
     s.add_dependency(%q<ruport-util>, [">= 0"])
   end
